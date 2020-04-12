@@ -1,0 +1,47 @@
+<?php
+/*
+ *
+ * Insertar regiones en magento 2
+ * probado en magento 2.3.4
+ * 11 abril 2020
+ * por Pedro Herrera Pilco Arequipa-Perú
+ * codigo sin comentarios
+ */
+
+use Magento\Framework\App\Bootstrap;
+require 'app/bootstrap.php';
+
+$bootstrap = Bootstrap::create(BP, $params);
+$objectManager = $bootstrap->getObjectManager();
+$resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
+$connection = $resource->getConnection();
+
+ $new_regions = array(
+    'AQP' => 'Arequipa',
+    'MOQ' => 'Moquegua',
+    'TAC' => 'Tacna',
+    'PUN' => 'Puno',
+    'CUS' => 'Cuzco',
+     );
+$country_code = 'PE';
+$locale = 'es_ES';
+
+foreach ($new_regions as $region_code => $region_name) { 
+    $query = "INSERT INTO `mgwm_directory_country_region` (`region_id`,`country_id`,`code`,`default_name`) VALUES (NULL,?,?,?)";
+    $connection->query($query,array($country_code,$region_code,$region_name));
+
+    $region_id = $connection->lastInsertId();
+ 
+    $sql = "INSERT INTO `mgwm_directory_country_region_name` (`locale`,`region_id`,`name`) VALUES (?,?,?)";
+    $connection->query($sql,array($locale,$region_id,$region_name));
+}
+    echo 'done';
+    
+  // espero que te sirva atentamente: Pedro Herrera Pilco - Arequipa-Perú
+  // Modificas los datos del array (con los departamento o estados de tu pais) 
+  // guardas en un archivo in-regiones.php
+  // Subes este archivo a tu servidor www.tu-tienda.com (donde esta tu index)
+  // ejecutas el archivo accediendo en tu navegador a --> www.tu-tienda.com/in-regiones.php
+  // si todo esta bien te mostrara done!
+  // si hay errores puedes buscar documentacion en magento. ()
+  ?>
