@@ -1,4 +1,4 @@
-# Add-region-magento2
+# Añadir regiones de Perú en magento 2
 Añadiendo nuevas regiones o provincias en Magento 2 para Peru
 
 este scritp añadira regiones a magento 2
